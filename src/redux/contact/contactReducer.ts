@@ -13,13 +13,17 @@ interface ContactsState {
 }
 
 const initialState: ContactsState = {
-  contacts: [],
+  contacts: [
+    { id: 1, firstName: "Manav", lastName: "Kaushal", status: "inactive" },
+    { id: 2, firstName: "Shivam", lastName: "Tayal", status: "active" },
+  ],
 };
 
 const contactsReducer: Reducer<ContactsState, ContactAction> = (
   state = initialState,
   action
 ) => {
+  console.log({ action });
   switch (action.type) {
     case ADD_CONTACT:
       return {

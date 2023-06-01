@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/rootReducer";
 import { Contact } from "../redux/contact/contactTypes";
@@ -7,61 +7,83 @@ import {
   deleteContact,
   updateContact,
 } from "../redux/contact/contactActions";
+import Button from "../components/Button";
+import { ContactViews } from "../utils/enums";
+import Modal from "../components/Modal";
+import AddContactForm from "./Forms/AddContactForm";
+import EditContactForm from "./Forms/EditContactForm";
+import Table from "../components/Table";
 
 type Props = {};
 
 const Home = (props: Props) => {
+  const [addContactModal, setAddContactModal] = useState<boolean>(false);
+  const [editContactModal, setEditContactModal] = useState<boolean>(false);
+  const [contactToEdit, setContactToEdit] = useState<Contact | null>(null);
   const contacts = useSelector(
     (state: RootState) => state.contactsList.contacts
   );
   const dispatch = useDispatch();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const nameInput = event.currentTarget.elements.namedItem(
-      "name"
-    ) as HTMLInputElement;
-    const emailInput = event.currentTarget.elements.namedItem(
-      "email"
-    ) as HTMLInputElement;
-    const id = Date.now();
-
-    const newContact: Contact = {
-      id,
-      name: nameInput.value,
-      email: emailInput.value,
-    };
-
-    dispatch(addContact(newContact));
-
-    nameInput.value = "";
-    emailInput.value = "";
+  const triggerAddContactModal = () => {
+    setAddContactModal((prevState) => !prevState);
   };
 
-  const handleDelete = (id: number) => {
+  const triggerEditContactModal = () => {
+    setEditContactModal((prevState) => !prevState);
+  };
+
+  const onEdit = (contact: Contact) => {
+    setContactToEdit(contact);
+    triggerEditContactModal();
+  };
+
+  const onDelete = (id: number) => {
     dispatch(deleteContact(id));
   };
 
-  const handleEdit = (contact: Contact) => {
-    const name = prompt("Enter new name:", contact.name);
-    const email = prompt("Enter new email:", contact.email);
+  return (
+    <div className="text-center">
+      <div className="flex items-center justify-between mb-2">
+        {contacts?.length > 0 && <p>Total Contacts: {contacts.length}</p>}
+        <Button size="sm" onClick={triggerAddContactModal}>
+          Add Contact
+        </Button>
+      </div>
 
-    if (name && email) {
-      const updatedContact: Contact = {
-        ...contact,
-        name,
-        email,
-      };
+      <Table
+        columns={["First Name", "Last Name", "Status", "Actions"]}
+        data={contacts}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
 
-      dispatch(updateContact(updatedContact));
-    }
-  };
+      {/* Add Contact Modal */}
+      <Modal
+        title="Add Contact"
+        isOpen={addContactModal}
+        onClose={() => {
+          triggerAddContactModal();
+        }}
+      >
+        <AddContactForm triggerAddContactModal={triggerAddContactModal} />
+      </Modal>
 
-  useEffect(() => {
-    console.log({ contacts });
-  }, [contacts]);
-
-  return <div>Home</div>;
+      {/* Edit Contact Modal */}
+      <Modal
+        title="Edit Contact"
+        isOpen={editContactModal}
+        onClose={() => {
+          triggerEditContactModal();
+        }}
+      >
+        <EditContactForm
+          contactToEdit={contactToEdit}
+          triggerEditContactModal={triggerEditContactModal}
+        />
+      </Modal>
+    </div>
+  );
 };
 
 export default Home;
