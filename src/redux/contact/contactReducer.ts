@@ -15,7 +15,8 @@ interface ContactsState {
 const initialState: ContactsState = {
   contacts: [
     { id: 1, firstName: "Manav", lastName: "Kaushal", status: "inactive" },
-    { id: 2, firstName: "Shivam", lastName: "Tayal", status: "active" },
+    { id: 2, firstName: "Rodney", lastName: "Wilkinson", status: "active" },
+    { id: 3, firstName: "Kylie", lastName: "Grant", status: "active" },
   ],
 };
 

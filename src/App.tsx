@@ -1,30 +1,15 @@
-import React, { useEffect, useState } from "react";
 import "./App.css";
-
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Link,
-} from "react-router-dom";
+import { Route, Routes, Link, useLocation } from "react-router-dom";
 import Home from "./Pages/Home";
 import { classNames } from "./utils/helpers";
 import Charts from "./Pages/Charts";
-
-const navigationMenu = [
-  { label: "Contact", path: "/" },
-  { label: "Covid Data", path: "/covid-center" },
-];
+import { navigationMenu } from "./utils/mocks";
 
 const App = () => {
-  const [selectedNavItem, setSelectedNavItem] = useState("");
-
-  const handleNavItemClick = (item: string) => {
-    setSelectedNavItem(item);
-  };
+  const location = useLocation();
 
   return (
-    <Router>
+    <>
       <div className="px-4 py-8 mx-auto max-w-7xl ">
         <div className="grid grid-cols-12 gap-6">
           <aside className="col-span-3">
@@ -34,14 +19,13 @@ const App = () => {
                   to={menuItem.path}
                   key={menuItem.label}
                   className={classNames(
-                    "p-2 group cursor-pointer transition-300 block rounded-md",
-                    selectedNavItem === menuItem.label
-                      ? "bg-blue-500 text-white"
-                      : ""
+                    "p-3 group cursor-pointer transition-200 rounded-md hover:pl-6 flex items-center space-x-2",
+                    location.pathname === menuItem.path
+                      ? "pl-6 font-bold bg-blue-500 text-white"
+                      : "hover:bg-gray-100"
                   )}
-                  onClick={() => handleNavItemClick(menuItem.label)}
                 >
-                  {menuItem.label}
+                  {menuItem.icon} <span>{menuItem.label}</span>
                 </Link>
               ))}
             </div>
@@ -56,7 +40,7 @@ const App = () => {
           </section>
         </div>
       </div>
-    </Router>
+    </>
   );
 };
 
