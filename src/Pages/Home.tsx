@@ -1,14 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/rootReducer";
 import { Contact } from "../redux/contact/contactTypes";
-import {
-  addContact,
-  deleteContact,
-  updateContact,
-} from "../redux/contact/contactActions";
+import { deleteContact } from "../redux/contact/contactActions";
 import Button from "../components/Button";
-import { ContactViews } from "../utils/enums";
 import Modal from "../components/Modal";
 import AddContactForm from "./Forms/AddContactForm";
 import EditContactForm from "./Forms/EditContactForm";

@@ -2,8 +2,9 @@ import "./App.css";
 import { Route, Routes, Link, useLocation } from "react-router-dom";
 import Home from "./Pages/Home";
 import { classNames } from "./utils/helpers";
-import Charts from "./Pages/Charts";
 import { navigationMenu } from "./utils/mocks";
+import CovidData from "./Pages/CovidData";
+import { NavigationPaths } from "./utils/enums";
 
 const App = () => {
   const location = useLocation();
@@ -33,8 +34,11 @@ const App = () => {
           <section className="col-span-9">
             <div className="p-4 bg-white border rounded-md shadow min-h-[calc(100vh-185px)]">
               <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/covid-center" element={<Charts />} />
+                <Route path={NavigationPaths.HOME} element={<Home />} />
+                <Route
+                  path={NavigationPaths.COVIDDATA}
+                  element={<CovidData />}
+                />
               </Routes>
             </div>
           </section>

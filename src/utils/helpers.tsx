@@ -17,3 +17,7 @@ export const classNames = (...args: ClassValue[]): string => {
 
   return classes.join(" ");
 };
+
+export const formatNumberWithCommas = (number: number): string => {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
