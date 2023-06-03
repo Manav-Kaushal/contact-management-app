@@ -8,6 +8,7 @@ import Modal from "../components/Modal";
 import AddContactForm from "./Forms/AddContactForm";
 import EditContactForm from "./Forms/EditContactForm";
 import Table from "../components/Table";
+import { Helmet } from "react-helmet";
 
 type Props = {};
 
@@ -38,46 +39,51 @@ const Home = (props: Props) => {
   };
 
   return (
-    <div className="text-center">
-      <div className="flex items-center justify-between mb-2">
-        {contacts?.length > 0 && <p>Total Contacts: {contacts.length}</p>}
-        <Button size="sm" onClick={triggerAddContactModal}>
-          Add Contact
-        </Button>
-      </div>
+    <>
+      <Helmet>
+        <title>Contacts</title>
+      </Helmet>
+      <div className="text-center">
+        <div className="flex items-center justify-between mb-2">
+          {contacts?.length > 0 && <p>Total Contacts: {contacts.length}</p>}
+          <Button size="sm" onClick={triggerAddContactModal}>
+            Add Contact
+          </Button>
+        </div>
 
-      <Table
-        columns={["First Name", "Last Name", "Status", "Actions"]}
-        data={contacts}
-        onEdit={onEdit}
-        onDelete={onDelete}
-      />
-
-      {/* Add Contact Modal */}
-      <Modal
-        title="Add Contact"
-        isOpen={addContactModal}
-        onClose={() => {
-          triggerAddContactModal();
-        }}
-      >
-        <AddContactForm triggerAddContactModal={triggerAddContactModal} />
-      </Modal>
-
-      {/* Edit Contact Modal */}
-      <Modal
-        title="Edit Contact"
-        isOpen={editContactModal}
-        onClose={() => {
-          triggerEditContactModal();
-        }}
-      >
-        <EditContactForm
-          contactToEdit={contactToEdit}
-          triggerEditContactModal={triggerEditContactModal}
+        <Table
+          columns={["First Name", "Last Name", "Status", "Actions"]}
+          data={contacts}
+          onEdit={onEdit}
+          onDelete={onDelete}
         />
-      </Modal>
-    </div>
+
+        {/* Add Contact Modal */}
+        <Modal
+          title="Add Contact"
+          isOpen={addContactModal}
+          onClose={() => {
+            triggerAddContactModal();
+          }}
+        >
+          <AddContactForm triggerAddContactModal={triggerAddContactModal} />
+        </Modal>
+
+        {/* Edit Contact Modal */}
+        <Modal
+          title="Edit Contact"
+          isOpen={editContactModal}
+          onClose={() => {
+            triggerEditContactModal();
+          }}
+        >
+          <EditContactForm
+            contactToEdit={contactToEdit}
+            triggerEditContactModal={triggerEditContactModal}
+          />
+        </Modal>
+      </div>
+    </>
   );
 };
 

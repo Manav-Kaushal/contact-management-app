@@ -15,7 +15,7 @@ const Header = (props: Props) => {
               width={45}
               height={45}
             />
-            <h3 className="text-lg font-semibold">Contact Management System</h3>
+            <h3 className="text-lg font-semibold">Contact Management App</h3>
           </div>
           <div></div>
           <div></div>
